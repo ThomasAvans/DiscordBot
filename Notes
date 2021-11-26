@@ -1,0 +1,7 @@
+files needed for discord bot:
+    index.js
+    launch.json
+    notes.js   
+    config.json
+
+npm run dev

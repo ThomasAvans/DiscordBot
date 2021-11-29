@@ -20,7 +20,7 @@ const info = new Discord.MessageEmbed()
 	.setTimestamp() //Will automatically adjust the timezone depending on the user's device
 	.setFooter('Created for fun');
 
-var Version = '1.0.1';
+var Version = '0.1';
 
 client.once('ready', () => {
     console.log('The bot is online!')
@@ -67,6 +67,10 @@ client.on('message', message => {
                     }
                 } else return message.reply('Error, please specify an amount.') 
                 break;
+            case '':
+                break;
+            default:
+                break;
         }
     }
 
@@ -77,16 +81,23 @@ client.on('message', message => {
         let member = message.mentions.members.first();
         switch(args[0]){
             case 'kick':
-                if(!args[1]) return message.reply('Error, please define a user.');
-                member.kick().then((member) =>{
-                    message.channel.send(":wave: " + member.displayName + " has been kicked!" )
-                }) 
+                //https://discord.js.org/#/docs/main/stable/class/GuildMemberManager?scrollTo=kick
+                if(args[1]){!
+                    member.kick()
+                    .then((member) =>{message.channel.send(":wave: " + member.displayName + " has been kicked!" )}) 
+                    .catch(console.error);
+                } else {
+                    return message.reply('Error, please define a user.');
+                }
                 break;
             case 'ban':
-                if(!args[1]) return message.reply('Error, please define a user.')   //does not work yet, add exception for admin-level members
-                member.ban().then((member) =>{
-                    message.channel.send(":hammer: " + member.displayName + " has been banned!")
-                })
+                if(args[1]) {//add exception for admin-level members
+                    member.ban()
+                        .then((member) =>{message.channel.send(":hammer: " + member.displayName + " has been banned!")})
+                        .catch(console.error);
+                } else {
+                    return message.reply('Error, please define a user.');
+                }
             case 'info':
                 if(!args[1]) return message.reply('If you want to see admin relevant commands use "!info admin"')
         }

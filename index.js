@@ -78,6 +78,7 @@ client.on('message', message => {
                 break;
             case 'ban':
                 if(!args[1]) return message.reply('Error, please define a user.')
+                //member  = message.mentions.members.first();
                 member.ban().then((member) =>{
                     message.channel.send(":wave: " + member.displayName + " has been banned!")
                 })

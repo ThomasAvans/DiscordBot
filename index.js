@@ -42,7 +42,7 @@ client.on('message', message => {
             break;
         case 'version':
             //if you want a second argument: !info [second argument: version, author, etc.]
-            if(args[1] === 'version'){
+            if(args[1] == 'version'){
                 message.channel.send('Version ' + Version);
             }else{
                 message.channel.send(Version)
@@ -58,33 +58,37 @@ client.on('message', message => {
     if(message.member.hasPermission(['MANAGE_NICKNAMES', 'MANAGE_MESSAGES'])){
         switch(args[0]){
             case 'purge':
-                if(!args[1]) return message.reply('Error, please define a ammount.')
-                message.channel.bulkDelete(args[1]);
-                message.channel.send(args[1] + ' message(s) have been deleted');
+                if(args[1]){
+                    message.channel.bulkDelete(parseInt(args[1]) + 1);
+                    if(args[1] == 1){
+                        message.channel.send(args[1] + ' message has been deleted');
+                    } else {
+                        message.channel.send(args[1] + ' messages have been deleted'); 
+                    }
+                } else return message.reply('Error, please specify an amount.') 
                 break;
         }
     }
 
 
     //server admin commands
-    if(message.member.hasPermission(['KICK_MEMBERS', 'BAN_MEMBERS', 'ADMINISTRATOR'])){
+    //https://discord.js.org/#/docs/main/stable/class/GuildMember
+    if(message.member.hasPermission(['KICK_MEMBERS', 'BAN_MEMBERS', 'ADMINISTRATOR']) || message.member.hasPermission(['ADMINISTRATOR'])){
+        let member = message.mentions.members.first();
         switch(args[0]){
             case 'kick':
                 if(!args[1]) return message.reply('Error, please define a user.');
-                let member = message.mentions.members.first();
                 member.kick().then((member) =>{
                     message.channel.send(":wave: " + member.displayName + " has been kicked!" )
                 }) 
                 break;
             case 'ban':
-                if(!args[1]) return message.reply('Error, please define a user.')
-                //member  = message.mentions.members.first();
+                if(!args[1]) return message.reply('Error, please define a user.')   //does not work yet, add exception for admin-level members
                 member.ban().then((member) =>{
-                    message.channel.send(":wave: " + member.displayName + " has been banned!")
+                    message.channel.send(":hammer: " + member.displayName + " has been banned!")
                 })
             case 'info':
                 if(!args[1]) return message.reply('If you want to see admin relevant commands use "!info admin"')
-                
         }
     }
 })

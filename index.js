@@ -52,10 +52,13 @@ client.on('message', message => {
             //https://www.youtube.com/watch?v=tQjpv0OO5pA
             message.channel.send(info);
             break;
+        default:
+            break;
     }    
 
     //chat admin commands
     if(message.member.hasPermission(['MANAGE_NICKNAMES', 'MANAGE_MESSAGES'])){
+        let member = message.mentions.members.first();
         switch(args[0]){
             case 'purge':
                 if(args[1]){
@@ -67,7 +70,12 @@ client.on('message', message => {
                     }
                 } else return message.reply('Error, please specify an amount.') 
                 break;
-            case '':
+            case 'setnick': //user, new nickname
+                if(args[1]){
+                    
+                }
+                break;
+            case 'mute': //time
                 break;
             default:
                 break;
@@ -82,7 +90,7 @@ client.on('message', message => {
         switch(args[0]){
             case 'kick':
                 //https://discord.js.org/#/docs/main/stable/class/GuildMemberManager?scrollTo=kick
-                if(args[1]){!
+                if(args[1]){
                     member.kick()
                     .then((member) =>{message.channel.send(":wave: " + member.displayName + " has been kicked!" )}) 
                     .catch(console.error);
@@ -98,8 +106,13 @@ client.on('message', message => {
                 } else {
                     return message.reply('Error, please define a user.');
                 }
+            case 'unban':
+                break;
             case 'info':
                 if(!args[1]) return message.reply('If you want to see admin relevant commands use "!info admin"')
+                break;
+            default:
+                break;
         }
     }
 })

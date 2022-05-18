@@ -61,11 +61,14 @@ client.on('message', message => {
                 if(args[1]){
                     message.channel.bulkDelete(parseInt(args[1]) + 1);
                     if(args[1] == 1){
-                        message.channel.send(args[1] + ' message has been deleted');
+                        message.channel.send(args[1] + ' message has been deleted')
+                        .catch(console.error);
                     } else {
-                        message.channel.send(args[1] + ' messages have been deleted'); 
+                        message.channel.send(args[1] + ' messages have been deleted')
+                        .catch(console.error); 
                     }
-                } else return message.reply('Error, please specify an amount.') 
+                } else return message.reply('Error, please specify an amount.')
+                .catch(console.error)
                 break;
             case '':
                 break;
@@ -87,7 +90,7 @@ client.on('message', message => {
                     .then((member) =>{message.channel.send(":wave: " + member.displayName + " has been kicked!" )}) 
                     .catch(console.error);
                 } else {
-                    return message.reply('Error, please define a user.');
+                    return message.reply('Error, please define a valid user.');
                 }
                 break;
             case 'ban':
@@ -96,7 +99,7 @@ client.on('message', message => {
                         .then((member) =>{message.channel.send(":hammer: " + member.displayName + " has been banned!")})
                         .catch(console.error);
                 } else {
-                    return message.reply('Error, please define a user.');
+                    return message.reply('Error, please define a valid user.');
                 }
             case 'info':
                 if(!args[1]) return message.reply('If you want to see admin relevant commands use "!info admin"')
